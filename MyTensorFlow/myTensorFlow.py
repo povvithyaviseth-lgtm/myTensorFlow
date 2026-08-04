@@ -16,3 +16,14 @@ def affine(x, w, b):
 def relu(z):
     return np.maximum(0,z)
 
+# Sigmoid Activation Function
+# Formula: sigmoid(z) = 1/(1+e^(-z))
+# z: Pre-activation Value
+def sigmoid(z):
+    return 1 / (1 + np.exp(-z))
+
+# Linear Activation Function
+# Formula: Linear(z) = z = w · x + b
+# z: Pre-activation Value
+def linear(z):
+    return z
