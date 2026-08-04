@@ -5,8 +5,9 @@ import numpy as np
 # w: weight vector
 # x: input vector
 # b: scalar bias
+# Returns: Scalar Pre-activation Value
 def affine(x, w, b):
-    return np.dot(w,x) + b
+    return np.dot(w, x) + b
 
 # Activation Function
 
@@ -14,7 +15,7 @@ def affine(x, w, b):
 # Formula: g(z) = max(0,z)
 # z: Pre-activation Value
 def relu(z):
-    return np.maximum(0,z)
+    return np.maximum(0, z)
 
 # Sigmoid Activation Function
 # Formula: sigmoid(z) = 1/(1+e^(-z))
@@ -27,3 +28,13 @@ def sigmoid(z):
 # z: Pre-activation Value
 def linear(z):
     return z
+
+x = np.array([1.0, 2.0, 3.0])
+w = np.array([3.0, 1.4, -1.2])
+b = 0.3
+
+z = affine(x, w, b)
+print(f"z: {z}")
+print(f"Relu: {relu(z)}")
+print(f"sigmoid: {sigmoid(z)}")
+print(f"Linear: {linear(z)}")
