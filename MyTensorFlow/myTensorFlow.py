@@ -5,7 +5,14 @@ import numpy as np
 # w: weight vector
 # x: input vector
 # b: scalar bias
-# z: scalar pre-activation value
 def affine(x, w, b):
     return np.dot(w,x) + b
+
+# Activation Function
+
+# Relu Activation Function
+# Formula: g(z) = max(0,z)
+# z: Pre-activation Value
+def relu(z):
+    return np.maximum(0,z)
 
