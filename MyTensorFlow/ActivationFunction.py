@@ -9,8 +9,6 @@ import numpy as np
 def affine(x, w, b):
     return np.dot(w, x) + b
 
-# Activation Function
-
 # Relu Activation Function
 # Formula: g(z) = max(0,z)
 # z: Pre-activation Value
@@ -29,12 +27,3 @@ def sigmoid(z):
 def linear(z):
     return z
 
-x = np.array([1.0, 2.0, 3.0])
-w = np.array([3.0, 1.4, -1.2])
-b = 0.3
-
-z = affine(x, w, b)
-print(f"z: {z}")
-print(f"Relu: {relu(z)}")
-print(f"sigmoid: {sigmoid(z)}")
-print(f"Linear: {linear(z)}")
