@@ -1,10 +1,13 @@
-from MyTensorFlow.ActivationFunction import *
+import random
 
+import numpy as np
+from ActivationFunction import linear, affine
 
 class Neuron:
-    def __init__(self, size=0, units=0 ,activation=linear):
-        self._w = np.zeros(size,units)
-        self._b = 0.0
+    # Assumption: w and b has a fit value
+    def __init__(self, size=0, activation=linear):
+        self._w = np.random.randn(size)
+        self._b = 0.3
         self._activation = activation
 
     def forward(self, x):
