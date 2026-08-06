@@ -38,4 +38,8 @@ def compute_gradient(X, y, w, b, function):
             dj_dw[j] += err_i * X[i][j]
         dj_db += err_i
 
+
+    dj_dw /= m
+    dj_db /= m
+
     return dj_dw, dj_db
