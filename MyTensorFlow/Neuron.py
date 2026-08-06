@@ -13,3 +13,8 @@ class Neuron:
     def forward(self, x):
         z = affine(x, self._w, self._b)
         return self._activation(z)
+
+    def set_w(self, w=None, b=None):
+        self._w = w
+        self._b = b
+
