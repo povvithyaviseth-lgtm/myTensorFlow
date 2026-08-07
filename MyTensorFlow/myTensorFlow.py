@@ -18,8 +18,9 @@ def fit(X, y, epochs=1000, learning_rate=0.01, activation=linear):
     for epoch in range(epochs):
         dj_dw, dj_db = compute_gradient(X, y, w, b, activation)
         for j in range(n):
-            w[j] += learning_rate * dj_dw[j]
-        b += learning_rate * dj_db
+            w[j] -= learning_rate * dj_dw[j]
+        b -= learning_rate * dj_db
+        print(logistic_cost_function(X, y, w, b))
     return w,b
 
 def logistic_cost_function(X, y, w, b):
