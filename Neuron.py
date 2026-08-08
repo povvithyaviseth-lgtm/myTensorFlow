@@ -23,3 +23,6 @@ class Neuron:
 
     def get_weight(self):
         return self._w, self._b
+
+    def get_activation(self):
+        return self._activation
