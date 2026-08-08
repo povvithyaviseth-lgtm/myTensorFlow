@@ -1,6 +1,6 @@
 import numpy as np
 from ActivationFunction import linear, affine
-from MyTensorFlow.LossFunction import MSE
+from LossFunction import MSE
 
 """
 x (ndarray (n, )): Input Value with n feature
