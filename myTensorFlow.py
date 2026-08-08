@@ -17,10 +17,13 @@ activation_sym = {linear: linear_sym,
                   sigmoid: sigmoid_sym,
                   relu: relu_sym}
 
-def fit(neuron, X, y, epochs=1000, learning_rate=0.01, loss=MSE):
+def fit(neuron, X, y, epochs=1000, learning_rate=0.01):
     m, n = X.shape
     w, b = neuron.get_weight()
+
     activation = neuron.get_activation()
+    loss = neuron.get_loss()
+
     for epoch in range(epochs):
         dj_dw, dj_db = compute_gradient(X, y, w, b, activation, loss, activation_sym[activation])
         for j in range(n):
