@@ -1,8 +1,9 @@
 import numpy as np
-from sympy.integrals.risch import derivation
+
 
 from ActivationFunction import affine, linear, sigmoid, relu
 from LossFunction import dJ_da, MSE, BinaryCrossentropy
+from AutoDiff import da_dz, linear_sym, sigmoid_sym, relu_sym
 
 """
 x_train (ndarray (m,n)): m Example with n feature
@@ -12,29 +13,45 @@ w (ndarray (n, )): n Feature
 b (scalar): Bias
 """
 
+activation_sym = {linear: linear_sym,
+                  sigmoid: sigmoid_sym,
+                  relu: relu_sym}
+
 def fit(X, y, epochs=1000, learning_rate=0.01, activation=linear, loss=MSE):
     m, n = X.shape
     w = np.zeros(n)
     b = 0.0
     for epoch in range(epochs):
-        dj_dw, dj_db = compute_gradient(X, y, w, b, activation, loss)
+        dj_dw, dj_db = compute_gradient(X, y, w, b, activation, loss, activation_sym[activation])
         for j in range(n):
             w[j] -= learning_rate * dj_dw[j]
         b -= learning_rate * dj_db
     return w,b
 
-def compute_gradient(X, y, w, b, function, loss):
+def compute_gradient(X, y, w, b, function, loss, sym):
     m, n = X.shape
     dj_dw = np.zeros(n)
     dj_db = 0.0
-    dj_da = dJ_da(loss)
+    dj_da_diff = dJ_da(loss)
+    da_dz_diff = da_dz(sym)
     for i in range(m):
+
         z = affine(X[i], w, b)
         predict = function(z)
-        diff = dj_da(predict, y[i])
+
+        dj_da_val = dj_da_diff(predict, y[i])
+        da_dz_val = da_dz_diff(z)
+        dj_dz_val = dj_da_val * da_dz_val
+
+        dz_dw_val = X[i][j]
+        dz_db_val = 1
+
+        dj_dw_val = dj_dz_val * dz_dw_val
+        dj_db_val = dj_dz_val * dz_db_val
         for j in range(n):
-            dj_dw[j] += diff * X[i][j]
-        dj_db += diff
+            dj_dw[j] += dj_dw_val
+        dj_db += dj_db_val
+
     dj_dw /= m
     dj_db /= m
     return dj_dw, dj_db
