@@ -17,16 +17,16 @@ activation_sym = {linear: linear_sym,
                   sigmoid: sigmoid_sym,
                   relu: relu_sym}
 
-def fit(X, y, epochs=1000, learning_rate=0.01, activation=linear, loss=MSE):
+def fit(neuron, X, y, epochs=1000, learning_rate=0.01, loss=MSE):
     m, n = X.shape
-    w = np.zeros(n)
-    b = 0.0
+    w, b = neuron.get_weight()
+    activation = neuron.get_activation()
     for epoch in range(epochs):
         dj_dw, dj_db = compute_gradient(X, y, w, b, activation, loss, activation_sym[activation])
         for j in range(n):
             w[j] -= learning_rate * dj_dw[j]
         b -= learning_rate * dj_db
-    return w,b
+    neuron.set(w,b)
 
 def compute_gradient(X, y, w, b, function, loss, sym):
     m, n = X.shape
@@ -43,13 +43,13 @@ def compute_gradient(X, y, w, b, function, loss, sym):
         da_dz_val = da_dz_diff(z)
         dj_dz_val = dj_da_val * da_dz_val
 
-        dz_dw_val = X[i][j]
-        dz_db_val = 1
-
-        dj_dw_val = dj_dz_val * dz_dw_val
-        dj_db_val = dj_dz_val * dz_db_val
         for j in range(n):
+            dz_dw_val = X[i][j]
+            dj_dw_val = dj_dz_val * dz_dw_val
             dj_dw[j] += dj_dw_val
+
+        dz_db_val = 1
+        dj_db_val = dj_dz_val * dz_db_val
         dj_db += dj_db_val
 
     dj_dw /= m
