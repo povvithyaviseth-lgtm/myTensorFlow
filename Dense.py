@@ -1,17 +1,52 @@
 import numpy as np
+from sympy import symbols
 
 from LossFunction import MSE
 from Neuron import Neuron
-from ActivationFunction import linear
+from ActivationFunction import linear, sigmoid, relu
+from AutoDiff import da_dz, linear_sym, sigmoid_sym, relu_sym
+
+"""
+x (ndarray (m, )): Feature m
+W (ndarray (m,n)): Feature m, Neuron n
+b (ndarray (n,)): Neuron n
+"""
+activation_sym = {linear: linear_sym,
+                  sigmoid: sigmoid_sym,
+                  relu: relu_sym}
 
 class Dense:
     def __init__(self, input_size=0, units=0, activation=linear, loss=MSE):
-        self._neurons = [Neuron(input_size=input_size,activation=activation,loss=loss)
-                         for _ in range(units)]
+        self._input = None
+        self._z = None
+        self._a = None
+        self._W = np.random.randn(input_size, units) * 0.01
+        self._b = np.zeros(units)
+        self._activation = activation
 
     def forward(self, X):
-        output = [neuron.forward(X) for neuron in self._neurons]
-        return np.array(output)
+        self._input = X
+        self._z = X @ self._W + self._b
+        self._a = self._activation(self._z)
+        return self._a
 
-    def get_neurons(self):
-        return self._neurons
+    """
+    Calculate Backprop Using Chain Rule
+    Formula: dJ/dw = dJ/da * da/dz * dz/dw
+    
+    z(j) = w(j) * a(j-1) + b(j)
+    dz/dw = a(j-1) (Input)
+    
+    dJ/da (scalar): Derivative of Cost Function with respect to Predicted Value
+    da/dz (scalar): Derivative of Activation Function
+    dJ/dw (ndarray (m,n)): Feature m, Neuron n
+    dJ/db (ndarray (n, )): Neuron n
+    """
+    def backward(self, dJ_da):
+        da_dz_func = da_dz(activation_sym[self._activation])
+        da_dz_val = da_dz_func(self._z)
+        dJ_dz = dJ_da * da_dz_val
+        dJ_dw = np.outer(self._input, dJ_dz)
+        dJ_db = dJ_dz
+        dJ_da_prev = self._W @ dJ_dz
+        return dJ_da_prev, dJ_dw, dJ_db
