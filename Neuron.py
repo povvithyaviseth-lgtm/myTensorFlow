@@ -10,9 +10,9 @@ _b (scalar): Bias
 """
 
 class Neuron:
-    def __init__(self, num_feat=0, activation=linear, loss=MSE):
-        self._w = np.zeros(num_feat)
-        self._b = 0.0
+    def __init__(self, input_size=0, activation=linear, loss=MSE):
+        self._w = np.random.randn(input_size) * 0.01
+        self._b = 1.0
         self._activation = activation
         self._loss = loss
 
