@@ -3,7 +3,7 @@ from LossFunction import BinaryCrossentropy, dJ_da
 """
 layers (List of Dense)
 """
-class Model:
+class Sequential:
     def __init__(self, layers):
         self._layers = layers
 
