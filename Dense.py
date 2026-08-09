@@ -1,7 +1,7 @@
 import numpy as np
 from sympy import symbols
 
-from LossFunction import MSE
+from LossFunction import MSE, BinaryCrossentropy, dJ_da
 from Neuron import Neuron
 from ActivationFunction import linear, sigmoid, relu
 from AutoDiff import da_dz, linear_sym, sigmoid_sym, relu_sym
@@ -38,6 +38,7 @@ class Dense:
     
     z(j) = w(j) * a(j-1) + b(j)
     dz/dw = a(j-1) (Input)
+    dz/da = w(j)
     dz/db = 1
     
     dJ/da (ndarray (n, )): Derivative of Cost Function with respect to Predicted Value
@@ -54,5 +55,9 @@ class Dense:
         dJ_dw = np.outer(self._input, dJ_dz)        # dJ/dw = dJ/dz * dz/dw
         dJ_db = dJ_dz
 
-        dJ_da_prev = self._W @ dJ_dz
+        dJ_da_prev = self._W @ dJ_dz                # dJ/da = dJ/dz * dz/da
         return dJ_da_prev, dJ_dw, dJ_db
+
+    def update(self, dJ_dw, dJ_db, learning_rate=0.01):
+        self._W -= learning_rate * dJ_dw
+        self._b -= learning_rate * dJ_db
