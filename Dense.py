@@ -8,7 +8,7 @@ from AutoDiff import da_dz, linear_sym, sigmoid_sym, relu_sym
 
 """
 x (ndarray (m, )): Feature m
-W (ndarray (m,n)): Feature m, Neuron n
+W (ndarray (m,n)): Input m, Neuron n
 b (ndarray (n,)): Neuron n
 """
 activation_sym = {linear: linear_sym,
@@ -32,21 +32,27 @@ class Dense:
 
     """
     Calculate Backprop Using Chain Rule
-    Formula: dJ/dw = dJ/da * da/dz * dz/dw
+    Formula: 
+    dJ/dw = dJ/da * da/dz * dz/dw
+    dJ/db = dJ/da * da/dz * dz/db
     
     z(j) = w(j) * a(j-1) + b(j)
     dz/dw = a(j-1) (Input)
+    dz/db = 1
     
-    dJ/da (scalar): Derivative of Cost Function with respect to Predicted Value
-    da/dz (scalar): Derivative of Activation Function
-    dJ/dw (ndarray (m,n)): Feature m, Neuron n
+    dJ/da (ndarray (n, )): Derivative of Cost Function with respect to Predicted Value
+    da/dz (ndarray (n, )): Derivative of Activation Function
+    dJ/dw (ndarray (m,n)): Input m, Neuron n
     dJ/db (ndarray (n, )): Neuron n
     """
     def backward(self, dJ_da):
         da_dz_func = da_dz(activation_sym[self._activation])
         da_dz_val = da_dz_func(self._z)
+
         dJ_dz = dJ_da * da_dz_val
-        dJ_dw = np.outer(self._input, dJ_dz)
+
+        dJ_dw = np.outer(self._input, dJ_dz)        # dJ/dw = dJ/dz * dz/dw
         dJ_db = dJ_dz
+
         dJ_da_prev = self._W @ dJ_dz
         return dJ_da_prev, dJ_dw, dJ_db
