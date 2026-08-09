@@ -11,12 +11,10 @@ class Model:
     return a List of Activation Result
     """
     def forward(self, x):
-        activations = [x]
         a = x
         for layer in self._layers:
             a = layer.forward(a)
-            activations.append(a)
-        return activations
+        return a
 
     def fit(self,X, y, epochs=100):
         dJ_da_func = dJ_da(loss=BinaryCrossentropy)

@@ -1,8 +1,5 @@
 import numpy as np
-from sympy import symbols
-
 from LossFunction import MSE, BinaryCrossentropy, dJ_da
-from Neuron import Neuron
 from ActivationFunction import linear, sigmoid, relu
 from AutoDiff import da_dz, linear_sym, sigmoid_sym, relu_sym
 
@@ -26,7 +23,7 @@ class Dense:
 
     def forward(self, X):
         self._input = X
-        self._z = X @ self._W + self._b
+        self._z = np.matmul(X, self._W) + self._b
         self._a = self._activation(self._z)
         return self._a
 
@@ -55,7 +52,7 @@ class Dense:
         dJ_dw = np.outer(self._input, dJ_dz)        # dJ/dw = dJ/dz * dz/dw
         dJ_db = dJ_dz
 
-        dJ_da_prev = self._W @ dJ_dz                # dJ/da = dJ/dz * dz/da
+        dJ_da_prev = np.matmul(self._W,dJ_dz)       # dJ/da = dJ/dz * dz/da
         return dJ_da_prev, dJ_dw, dJ_db
 
     def update(self, dJ_dw, dJ_db, learning_rate=0.01):
