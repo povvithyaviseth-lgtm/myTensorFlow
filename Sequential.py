@@ -7,6 +7,7 @@ class Sequential:
     def __init__(self, layers):
         self._layers = layers
         self._loss = MSE
+        self._learning_rate = 0.1
 
     """
     return a List of Activation Result
@@ -17,8 +18,9 @@ class Sequential:
             a = layer.forward(a)
         return a
 
-    def compile(self,loss=MSE):
+    def compile(self,learning_rate=0.1, loss=MSE):
         self._loss=loss
+        self._learning_rate = learning_rate
 
     def fit(self,X, y, epochs=100):
         dJ_da_func = dJ_da(loss=self._loss)
