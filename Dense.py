@@ -1,17 +1,12 @@
 import numpy as np
-from LossFunction import MSE, BinaryCrossentropy, dJ_da
-from ActivationFunction import linear, sigmoid, relu
-from AutoDiff import da_dz, linear_sym, sigmoid_sym, relu_sym
+from ActivationFunction import linear
+from AutoDiff import da_dz, dJ_da
 
 """
 x (ndarray (m, )): Feature m
 W (ndarray (m,n)): Input m, Neuron n
 b (ndarray (n,)): Neuron n
 """
-activation_sym = {linear: linear_sym,
-                  sigmoid: sigmoid_sym,
-                  relu: relu_sym}
-
 class Dense:
     def __init__(self, input_size=0, units=0, activation=linear):
         self._input = None
@@ -44,7 +39,7 @@ class Dense:
     dJ/db (ndarray (n, )): Neuron n
     """
     def backward(self, dJ_da):
-        da_dz_func = da_dz(activation_sym[self._activation])
+        da_dz_func = da_dz(self._activation)
         da_dz_val = da_dz_func(self._z)
 
         dJ_dz = dJ_da * da_dz_val

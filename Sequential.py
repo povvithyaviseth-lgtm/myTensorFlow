@@ -1,5 +1,5 @@
-from LossFunction import dJ_da, MSE
-
+from LossFunction import MSE
+from AutoDiff import dJ_da
 """
 layers (List of Dense)
 """
