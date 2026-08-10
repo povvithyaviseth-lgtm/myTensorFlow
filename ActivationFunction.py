@@ -4,11 +4,11 @@ import sympy as sp
 """
 Calculate the pre-activation value for one neuron.
 Formula: z = w · x + b
-Args:
+Arg:
     w (ndarray (n,)): Weight with n Feature
     x (ndarray (n,)): Input with n Feature
     b (Scalar): Bias
-Returns: 
+Return: 
     z (scalar): w · x + b (Pre-activation Value)
 """
 def affine(x, w, b):
@@ -17,9 +17,9 @@ def affine(x, w, b):
 """
 Relu Activation Function
 Formula: g(z) = max(0,z)
-Args:
+Arg:
     z (scalar): Pre-activation Value
-Returns: 
+Return: 
     g (scalar): max(0,z)
 """
 def relu(z):
@@ -31,9 +31,9 @@ def relu(z):
 """
 Sigmoid Activation Function
 Formula: sigmoid(z) = 1/(1+e^(-z))
-Args:
+Arg:
     z (scalar): Pre-activation Value
-Returns: 
+Return: 
     g (scalar): 1/(1+e^(-z))
 """
 def sigmoid(z):
@@ -43,9 +43,9 @@ def sigmoid(z):
 """
 Linear Activation Function
 Formula: Linear(z) = z = w · x + b
-Args:
+Arg:
     z (scalar): Pre-activation Value
-Returns: 
+Return: 
     g (scalar): z
 """
 def linear(z):
