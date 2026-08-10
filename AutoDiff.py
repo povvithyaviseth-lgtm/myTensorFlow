@@ -1,18 +1,7 @@
-from sympy import symbols, exp, diff, lambdify, Piecewise
+from ActivationFunction import linear
+from sympy import symbols, diff, lambdify
 
-def relu_sym(z):
-    return Piecewise(
-        (0, z <= 0),
-        (z, z > 0)
-    )
-
-def sigmoid_sym(z):
-    return 1/(1+exp(-z))
-
-def linear_sym(z):
-    return z
-
-def da_dz(function=linear_sym):
+def da_dz(function=linear):
     z = symbols("z")
     a = function(z)
     da_dz = diff(a,z)

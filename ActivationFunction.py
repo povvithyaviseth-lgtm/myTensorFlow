@@ -1,4 +1,5 @@
 import numpy as np
+import sympy as sp
 
 """
 Calculate the pre-activation value for one neuron.
@@ -22,7 +23,10 @@ Returns:
     g (scalar): max(0,z)
 """
 def relu(z):
-    return np.maximum(0, z)
+    if isinstance(z, sp.Basic):
+        return sp.Piecewise((0, z <= 0),(z, z > 0))
+    else:
+        return np.max(0,z)
 
 """
 Sigmoid Activation Function
@@ -33,7 +37,8 @@ Returns:
     g (scalar): 1/(1+e^(-z))
 """
 def sigmoid(z):
-    return 1 / (1 + np.exp(-z))
+    exp = sp.exp if isinstance(z, sp.Basic) else np.exp
+    return 1 / (1 + exp(-z))
 
 """
 Linear Activation Function
