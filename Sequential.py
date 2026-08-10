@@ -1,4 +1,4 @@
-from LossFunction import MSE
+from LossFunction import SE
 from AutoDiff import dJ_da
 """
 layers (List of Dense)
@@ -6,7 +6,7 @@ layers (List of Dense)
 class Sequential:
     def __init__(self, layers):
         self._layers = layers
-        self._loss = MSE
+        self._loss = SE
         self._learning_rate = 0.1
 
     """
@@ -18,7 +18,7 @@ class Sequential:
             a = layer.forward(a)
         return a
 
-    def compile(self,learning_rate=0.1, loss=MSE):
+    def compile(self,learning_rate=0.1, loss=SE):
         self._loss=loss
         self._learning_rate = learning_rate
 

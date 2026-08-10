@@ -1,6 +1,6 @@
 import numpy as np
 from ActivationFunction import linear
-from AutoDiff import da_dz, dJ_da
+from AutoDiff import da_dz
 
 """
 x (ndarray (m, )): Feature m
