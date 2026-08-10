@@ -13,7 +13,7 @@ activation_sym = {linear: linear_sym,
                   relu: relu_sym}
 
 class Dense:
-    def __init__(self, input_size=0, units=0, activation=linear, loss=MSE):
+    def __init__(self, input_size=0, units=0, activation=linear):
         self._input = None
         self._z = None
         self._a = None
