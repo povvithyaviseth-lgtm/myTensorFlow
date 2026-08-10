@@ -19,9 +19,3 @@ def log(x):
 
 def BinaryCrossentropy(a, y):
     return -(y * log(a) + (1 - y) * log(1 - a))
-
-def dJ_da(loss=MSE):
-    a, y = sp.symbols("a, y")
-    J = loss(a, y)
-    dJ_da = sp.diff(J, a)
-    return sp.lambdify((a, y), dJ_da, "numpy")
